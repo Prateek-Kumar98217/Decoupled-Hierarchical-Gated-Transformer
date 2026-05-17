@@ -5,7 +5,7 @@ from dataclasses import dataclass
 
 
 @dataclass
-class EGHGTConfig:
+class DHGTConfig:
 
     text_dim: int = 768
     audio_dim: int = 768
@@ -129,8 +129,8 @@ class MultiTaskLoss(nn.Module):
         return loss
 
 
-class EGHGT(nn.Module):
-    def __init__(self, config: EGHGTConfig):
+class DHGT(nn.Module):
+    def __init__(self, config: DHGTConfig):
         super().__init__()
         self.config = config
 
