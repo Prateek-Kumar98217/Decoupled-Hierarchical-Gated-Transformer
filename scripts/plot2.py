@@ -1,4 +1,4 @@
-"""Script to generate and save both confusion matrix(emotion and sentiment) for the EGHG-T model on the MELD test set."""
+"""Script to generate and save both confusion matrix(emotion and sentiment) for the DHGT model on the MELD test set."""
 
 import torch
 import numpy as np
@@ -7,15 +7,15 @@ import seaborn as sns
 from sklearn.metrics import confusion_matrix
 from torch.utils.data import DataLoader
 
-from model import EGHGT, EGHGTConfig
+from model import DHGT, DHGTConfig
 from train import ProcessedMELDDataset
 
 
 def plot_publication_confusion_matrices(model_path, test_pt_path):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    config = EGHGTConfig()
+    config = DHGTConfig()
 
-    model = EGHGT(config).to(device)
+    model = DHGT(config).to(device)
     model.load_state_dict(torch.load(model_path, map_location=device))
     model.eval()
 
@@ -71,7 +71,7 @@ def plot_publication_confusion_matrices(model_path, test_pt_path):
         annot_kws={"size": 11},
     )
 
-    axes[0].set_title("Emotion Classification (EGHG-T)", fontsize=16, pad=15)
+    axes[0].set_title("Emotion Classification (DHGT)", fontsize=16, pad=15)
     axes[0].set_ylabel("True Emotion", fontsize=14, weight="bold")
     axes[0].set_xlabel("Predicted Emotion", fontsize=14, weight="bold")
     axes[0].tick_params(axis="x", rotation=45)
@@ -88,19 +88,19 @@ def plot_publication_confusion_matrices(model_path, test_pt_path):
         annot_kws={"size": 11},
     )
 
-    axes[1].set_title("Sentiment Classification (EGHG-T)", fontsize=16, pad=15)
+    axes[1].set_title("Sentiment Classification (DHGT)", fontsize=16, pad=15)
     axes[1].set_ylabel("True Sentiment", fontsize=14, weight="bold")
     axes[1].set_xlabel("Predicted Sentiment", fontsize=14, weight="bold")
     axes[1].tick_params(axis="x", rotation=45)
 
     plt.tight_layout()
-    plt.savefig("eghgt_dual_confusion_matrices.png", format="png", bbox_inches="tight")
-    print("Saved dual confusion matrices to 'eghgt_dual_confusion_matrices.png'")
+    plt.savefig("dhgt_dual_confusion_matrices.png", format="png", bbox_inches="tight")
+    print("Saved dual confusion matrices to 'dhgt_dual_confusion_matrices.png'")
     plt.show()
 
 
 if __name__ == "__main__":
     plot_publication_confusion_matrices(
-        "eghgt_best_model.pt",
+        "dhgt_best_model.pt",
         "/home/detxonr/Documents/projects/research/data/MELD.Raw/test_features.pt",
     )
