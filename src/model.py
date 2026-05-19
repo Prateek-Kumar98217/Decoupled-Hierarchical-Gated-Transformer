@@ -196,12 +196,12 @@ def count_parameters(model):
 
 
 def run_dummy_test():
-    """Tests the EGHG-T model with dummy tensors to verify shapes."""
-    print("--- Initializing EGHG-T Dummy Test ---")
+    """Tests the DHGT model with dummy tensors to verify shapes."""
+    print("--- Initializing DHGT Dummy Test ---")
 
     # 1. Load Config and Model
-    config = EGHGTConfig(batch_size=4)  # Small batch for local testing
-    model = EGHGT(config)
+    config = DHGTConfig(batch_size=4)  # Small batch for local testing
+    model = DHGT(config)
 
     count_parameters(model)
 

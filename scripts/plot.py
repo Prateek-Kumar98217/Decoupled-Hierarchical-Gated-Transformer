@@ -1,4 +1,4 @@
-"""Script to generate and save a confusion matrix(emotion) for the EGHG-T model on the MELD test set."""
+"""Script to generate and save a confusion matrix(emotion) for the DHGT model on the MELD test set."""
 
 import torch
 import numpy as np
@@ -7,17 +7,17 @@ import seaborn as sns
 from sklearn.metrics import confusion_matrix
 from torch.utils.data import DataLoader
 from model import (
-    EGHGT,
-    EGHGTConfig,
+    DHGT,
+    DHGTConfig,
 )
 from train import ProcessedMELDDataset
 
 
 def plot_publication_confusion_matrix(model_path, test_pt_path):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    config = EGHGTConfig()
+    config = DHGTConfig()
 
-    model = EGHGT(config).to(device)
+    model = DHGT(config).to(device)
     model.load_state_dict(torch.load(model_path, map_location=device))
     model.eval()
 
@@ -62,7 +62,7 @@ def plot_publication_confusion_matrix(model_path, test_pt_path):
         annot_kws={"size": 12},
     )
 
-    plt.title("Normalized Emotion Confusion Matrix (EGHG-T)", fontsize=16, pad=20)
+    plt.title("Normalized Emotion Confusion Matrix (DHGT)", fontsize=16, pad=20)
     plt.ylabel("True Emotion", fontsize=14, weight="bold")
     plt.xlabel("Predicted Emotion", fontsize=14, weight="bold")
 
@@ -70,13 +70,13 @@ def plot_publication_confusion_matrix(model_path, test_pt_path):
     plt.yticks(rotation=0, fontsize=11)
 
     plt.tight_layout()
-    plt.savefig("eghgt_confusion_matrix.png", format="png", bbox_inches="tight")
-    print("Saved confusion matrix to 'eghgt_confusion_matrix.png'")
+    plt.savefig("dhgt_confusion_matrix.png", format="png", bbox_inches="tight")
+    print("Saved confusion matrix to 'dhgt_confusion_matrix.png'")
     plt.show()
 
 
 if __name__ == "__main__":
     plot_publication_confusion_matrix(
-        "eghgt_best_model.pt",
+        "dhgt_best_model.pt",
         "/home/detxonr/Documents/projects/research/data/MELD.Raw/test_features.pt",
     )

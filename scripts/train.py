@@ -5,7 +5,7 @@ from torch.amp import autocast, GradScaler
 import numpy as np
 from tqdm import tqdm
 
-from model import EGHGT, EGHGTConfig, MultiTaskLoss
+from model import DHGT, DHGTConfig, MultiTaskLoss
 from sklearn.metrics import accuracy_score, f1_score
 
 
@@ -78,7 +78,7 @@ def evaluate(model, loader, criterion, device):
 
 def train_model():
 
-    config = EGHGTConfig(batch_size=32)
+    config = DHGTConfig(batch_size=32)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Initializing Training on {device}")
 
@@ -97,7 +97,7 @@ def train_model():
     epochs = 25
     test_start_epoch = 15
 
-    model = EGHGT(config).to(device)
+    model = DHGT(config).to(device)
     optimizer = optim.AdamW(model.parameters(), lr=5e-5, weight_decay=0.05)
     criterion = MultiTaskLoss().to(device)
     scaler = GradScaler()
@@ -165,7 +165,7 @@ def train_model():
 
         if val_loss < best_val_loss:
             best_val_loss = val_loss
-            torch.save(model.state_dict(), "eghgt_best_model.pt")
+            torch.save(model.state_dict(), "dhgt_best_model.pt")
             print(f"Checkpoint saved! (Val Loss improved to {best_val_loss:.4f})")
 
         if epoch + 1 >= test_start_epoch:
@@ -176,7 +176,7 @@ def train_model():
                 f"Test Loss: {test_loss:.4f} | Senti Acc: {test_senti_acc:.2%} (F1: {test_senti_f1:.4f}) | Emo Acc: {test_emo_acc:.2%} (F1: {test_emo_f1:.4f})"
             )
         torch.cuda.empty_cache()
-    torch.save(model.state_dict(), "eghgt_last_model.pt")
+    torch.save(model.state_dict(), "dhgt_last_model.pt")
     print(f"Checkpoint saved! After complete training.")
 
 
